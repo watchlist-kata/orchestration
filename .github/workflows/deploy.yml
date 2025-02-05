@@ -21,7 +21,7 @@ jobs:
       - name: Execute Deployment Commands
         run: |
           ssh -o StrictHostKeyChecking=no root@185.171.81.61 << 'EOF'
-            cd /root/kata-watch-list/orchestration
+            cd /root/kata-watchlist/orchestration
             git pull origin main
             docker-compose down
             docker-compose build --no-cache
