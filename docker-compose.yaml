@@ -52,19 +52,21 @@ services:
       - "6379:6379"
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+    image: elasticsearch:8.6.2
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.http.ssl.enabled=false
       - xpack.security.enabled=false
     ports:
       - "9200:9200"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.10.0
+    image: kibana:8.6.2
     container_name: kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
@@ -79,4 +81,6 @@ volumes:
   kafka_data:
     driver: local
   postgres_data:
+    driver: local
+  elasticsearch_data:
     driver: local
